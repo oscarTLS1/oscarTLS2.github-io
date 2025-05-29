@@ -1,0 +1,1932 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexConnect: Cuestionario de Derecho Procesal Laboral - Creado por Oscar Sierra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #ece9e6, #ffffff); /* Suave degradado de fondo */
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-y: auto; /* Permite scroll si el contenido es muy largo */
+        }
+
+        .main-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 1000px;
+            padding: 30px 50px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden; /* Para animaciones de entrada/salida */
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #0a7eab; /* Azul profundo */
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+
+        header h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin: 10px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            font-size: 1.1em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Screens Management */
+        .screen {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .screen.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Welcome Screen */
+        .welcome-content {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .welcome-content h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: #0a7eab;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .welcome-content p {
+            font-size: 1.1em;
+            color: #555;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+        }
+
+        .animated-icon {
+            font-size: 5em;
+            color: #f39c12; /* Naranja vibrante */
+            margin-bottom: 30px;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        /* Buttons */
+        .cta-button, .nav-button {
+            background-color: #0a7eab; /* Azul principal */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            margin: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(10, 126, 171, 0.3);
+        }
+
+        .cta-button:hover, .nav-button:hover {
+            background-color: #086a94; /* Azul más oscuro al pasar el ratón */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(10, 126, 171, 0.4);
+        }
+
+        .nav-button {
+            background-color: #667e8c; /* Gris azulado para navegación */
+            box-shadow: 0 4px 10px rgba(102, 126, 140, 0.3);
+        }
+
+        .nav-button:hover {
+            background-color: #516a78;
+            box-shadow: 0 6px 15px rgba(102, 126, 140, 0.4);
+        }
+
+        .cta-button:active, .nav-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Quiz Section */
+        .progress-container {
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            height: 15px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 100%;
+            background-color: #dcdcdc; /* Fondo para el progreso */
+            border-radius: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background-color: #28a745; /* Verde para el progreso */
+            border-radius: 10px;
+            transition: width 0.4s ease-in-out;
+        }
+
+        #progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #444;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.7);
+        }
+
+        .quiz-section-container {
+            background-color: #fcfcfc;
+            border-radius: 10px;
+            padding: 25px 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e9ecef;
+        }
+
+        .quiz-section-container h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: #0a7eab;
+            font-size: 1.6em;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .question-block {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #f7f9fc;
+            border-radius: 8px;
+            border: 1px solid #e0e6ec;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .question-block p {
+            font-size: 1.15em;
+            color: #34495e;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .options-list li {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+            display: flex;
+            align-items: center;
+            font-size: 1em;
+            color: #444;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        .options-list li:hover {
+            background-color: #f0f8ff;
+            border-color: #a0d1f7;
+            transform: translateY(-1px);
+        }
+
+        /* Feedback on Answer */
+        .options-list li.correct {
+            background-color: #d4edda; /* Verde claro */
+            border-color: #28a745; /* Verde fuerte */
+            color: #155724; /* Texto verde oscuro */
+            animation: pulse-correct 0.4s ease-out;
+            font-weight: bold;
+            pointer-events: none; /* Deshabilita clics después de responder */
+        }
+
+        .options-list li.incorrect {
+            background-color: #f8d7da; /* Rojo claro */
+            border-color: #dc3545; /* Rojo fuerte */
+            color: #721c24; /* Texto rojo oscuro */
+            animation: shake-incorrect 0.4s ease-out;
+            font-weight: bold;
+            pointer-events: none; /* Deshabilita clics después de responder */
+        }
+
+        /* For review mode only - to show correct answer on review */
+        .options-list li.correct-answer-review {
+            background-color: #e2f0fd; /* Azul muy claro para destacar en revisión */
+            border-color: #0a7eab;
+            color: #0a7eab;
+            font-weight: bold;
+        }
+
+        .answer-feedback {
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .answer-feedback.correct-text {
+            color: #28a745;
+        }
+
+        .answer-feedback.incorrect-text {
+            color: #dc3545;
+        }
+
+        .gratification-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(40, 167, 69, 0.9); /* Verde con transparencia */
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            opacity: 0;
+            visibility: hidden;
+            animation: fade-in-out 2s forwards;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .gratification-message i {
+            font-size: 1.8em;
+        }
+
+        @keyframes pulse-correct {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake-incorrect {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+
+        @keyframes fade-in-out {
+            0% { opacity: 0; visibility: visible; transform: translate(-50%, -30%); }
+            20% { opacity: 1; transform: translate(-50%, -50%); }
+            80% { opacity: 1; transform: translate(-50%, -50%); }
+            100% { opacity: 0; visibility: hidden; transform: translate(-50%, -70%); }
+        }
+
+        /* Navigation Buttons */
+        .navigation-buttons {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        /* Results Screen */
+        .results-summary {
+            text-align: center;
+            padding: 30px;
+            background-color: #f7f9fc;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .results-summary h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: #28a745; /* Verde para el éxito */
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .score-display {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #0a7eab;
+            margin-bottom: 20px;
+        }
+
+        .score-display span {
+            color: #28a745;
+        }
+
+        .feedback-message {
+            font-size: 1.3em;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        #review-section h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: #0a7eab;
+            font-size: 1.5em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .review-question-block {
+            background-color: #fcfcfc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e6ec;
+        }
+
+        .review-question-block p {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+
+        .review-question-block ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .review-question-block ul li {
+            padding: 8px 10px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            font-size: 0.95em;
+            border: 1px solid #f0f0f0;
+        }
+
+        .review-question-block .user-answer {
+            font-weight: bold;
+        }
+
+        .review-question-block .correct-answer-text {
+            font-weight: bold;
+            color: #28a745;
+            margin-top: 10px;
+            padding: 5px 0;
+            border-top: 1px dashed #c3e6cb;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 20px 30px;
+            }
+            header h1 {
+                font-size: 1.8em;
+            }
+            .welcome-content h2 {
+                font-size: 1.6em;
+            }
+            .cta-button, .nav-button {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            .question-block p {
+                font-size: 1em;
+            }
+            .options-list li {
+                padding: 10px 12px;
+                font-size: 0.9em;
+            }
+            .gratification-message {
+                font-size: 1.2em;
+                padding: 15px 20px;
+            }
+            .gratification-message i {
+                font-size: 1.5em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 15px 20px;
+                margin: 15px;
+            }
+            header h1 {
+                font-size: 1.5em;
+            }
+            .welcome-content h2 {
+                font-size: 1.4em;
+            }
+            .cta-button, .nav-button {
+                display: block;
+                width: calc(100% - 20px);
+                margin: 10px auto;
+            }
+            .animated-icon {
+                font-size: 4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <header>
+            <div class="logo">LexConnect</div>
+            <h1>Cuestionario de Derecho Procesal Laboral</h1>
+            <p class="tagline">¡Aprende y Evalúa tus Conocimientos con Oscar Sierra!</p>
+        </header>
+
+        <section id="welcome-screen" class="screen active">
+            <div class="welcome-content">
+                <h2>¡Bienvenido/a a tu Desafío Legal!</h2>
+                <p>Este cuestionario ha sido diseñado para poner a prueba y fortalecer tus conocimientos en <strong>Derecho Procesal Laboral</strong>. A través de preguntas interactivas, podrás evaluar tu comprensión de los conceptos fundamentales.</p>
+                <p>Tu objetivo es responder correctamente la mayor cantidad de preguntas posibles. ¡Cada respuesta correcta te acercará al éxito!</p>
+                <div class="animated-icon">
+                    <i class="fas fa-gavel"></i>
+                </div>
+                <button id="start-quiz-btn" class="cta-button">Comenzar Cuestionario</button>
+            </div>
+        </section>
+
+        <section id="quiz-screen" class="screen">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <span id="progress-text">0%</span>
+            </div>
+
+            <div id="quiz-sections">
+                </div>
+
+            <div class="navigation-buttons">
+                <button id="prev-section-btn" class="nav-button" style="display:none;"><i class="fas fa-arrow-left"></i> Sección Anterior</button>
+                <button id="next-section-btn" class="cta-button">Siguiente Sección <i class="fas fa-arrow-right"></i></button>
+                <button id="finish-quiz-btn" class="cta-button" style="display:none;">Finalizar Cuestionario <i class="fas fa-check-circle"></i></button>
+            </div>
+        </section>
+
+        <section id="results-screen" class="screen">
+            <div class="results-summary">
+                <h2>¡Cuestionario Completado!</h2>
+                <div class="score-display">
+                    Tu Puntuación: <span id="final-score">0</span> / <span id="total-questions">0</span>
+                </div>
+                <div class="feedback-message"></div>
+                <button id="review-answers-btn" class="cta-button">Revisar Respuestas <i class="fas fa-search"></i></button>
+                <button id="restart-quiz-btn" class="nav-button">Reiniciar Cuestionario <i class="fas fa-sync-alt"></i></button>
+            </div>
+            <div id="review-section" style="display:none;">
+                <h3>Revisión Detallada</h3>
+                <div id="review-questions-container"></div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questionsData = [
+                // SECCIÓN I: CONCEPTOS FUNDAMENTALES Y PRINCIPIOS
+                {
+                    section: "Conceptos Fundamentales y Principios",
+                    questions: [
+                        {
+                            question: "¿Cuál es la diferencia entre PROCESO y PROCEDIMIENTO en el derecho procesal laboral?",
+                            options: [
+                                "No existe diferencia, son sinónimos",
+                                "El proceso es el conjunto de actos procesales para resolver un problema judicial, mientras que el procedimiento son las etapas procesales dentro del proceso",
+                                "El procedimiento incluye al proceso",
+                                "El proceso es más específico que el procedimiento"
+                            ],
+                            correct: "El proceso es el conjunto de actos procesales para resolver un problema judicial, mientras que el procedimiento son las etapas procesales dentro del proceso"
+                        },
+                        {
+                            question: "¿Cuáles son los principios constitucionales del derecho laboral según el texto?",
+                            options: [
+                                "Oralidad, publicidad, contradicción",
+                                "Irrenunciabilidad de derechos, igualdad de oportunidades, remuneración mínima vital móvil, estabilidad en el empleo, facultades para transigir",
+                                "Debido proceso, ultra petita, extra petita",
+                                "Concentración, inmediación, impulso oficioso"
+                            ],
+                            correct: "Irrenunciabilidad de derechos, igualdad de oportunidades, remuneración mínima vital móvil, estabilidad en el empleo, facultades para transigir"
+                        },
+                        {
+                            question: "Complete: Los derechos CIERTOS incluyen:",
+                            options: [
+                                "Horas extras, recargos, indemnizaciones",
+                                "Salario, vacaciones, auxilio de transporte, seguridad social, prima de servicios",
+                                "Despido sin justa causa, sanción moratoria",
+                                "Solo el salario básico"
+                            ],
+                            correct: "Salario, vacaciones, auxilio de transporte, seguridad social, prima de servicios"
+                        },
+                        {
+                            question: "¿Qué significa el principio de ULTRA PETITA?",
+                            options: [
+                                "Facultad del juez para negar más de lo pedido",
+                                "Facultad del juez para otorgar más de lo pedido, solo en dinero y únicamente en primera instancia",
+                                "Facultad del juez para cambiar las pretensiones",
+                                "Facultad del juez para rechazar la demanda"
+                            ],
+                            correct: "Facultad del juez para otorgar más de lo pedido, solo en dinero y únicamente en primera instancia"
+                        },
+                        {
+                            question: "El principio de EXTRA PETITA se refiere a:",
+                            options: [
+                                "Facultad del juez para otorgar derechos fuera de lo pedido",
+                                "Facultad del juez para negar derechos",
+                                "Facultad del juez para cambiar el procedimiento",
+                                "Facultad del juez para suspender el proceso"
+                            ],
+                            correct: "Facultad del juez para otorgar derechos fuera de lo pedido"
+                        }
+                    ]
+                },
+                // SECCIÓN II: JURISDICCIÓN Y COMPETENCIA
+                {
+                    section: "Jurisdicción y Competencia",
+                    questions: [
+                        {
+                            question: "¿Cuál es la cuantía que determina la competencia en el factor objetivo?",
+                            options: [
+                                "10 SMMLV",
+                                "15 SMMLV",
+                                "20 SMMLV",
+                                "25 SMMLV"
+                            ],
+                            correct: "20 SMMLV"
+                        },
+                        {
+                            question: "En las demandas contra la NACIÓN, ¿cuál es la competencia territorial?",
+                            options: [
+                                "Solo el juez del domicilio del demandado",
+                                "Solo el juez del lugar donde se prestó el servicio",
+                                "El juez laboral de circuito del último lugar donde se prestó el servicio o del domicilio del demandante, a elección de este",
+                                "Cualquier juez laboral del país"
+                            ],
+                            correct: "El juez laboral de circuito del último lugar donde se prestó el servicio o del domicilio del demandante, a elección de este"
+                        },
+                        {
+                            question: "¿Qué instancia procesal corresponde a los jueces laborales de pequeñas causas?",
+                            options: [
+                                "Primera instancia",
+                                "Segunda instancia",
+                                "Única instancia",
+                                "Casación"
+                            ],
+                            correct: "Única instancia"
+                        },
+                        {
+                            question: "Los procesos sin cuantía son conocidos por:",
+                            options: [
+                                "Jueces laborales de pequeñas causas",
+                                "Jueces laborales de circuito",
+                                "Tribunales superiores",
+                                "Corte Suprema de Justicia"
+                            ],
+                            correct: "Jueces laborales de circuito"
+                        }
+                    ]
+                },
+                // SECCIÓN III: ETAPAS PROCESALES Y CONCILIACIÓN
+                {
+                    section: "Etapas Procesales y Conciliación",
+                    questions: [
+                        {
+                            question: "¿Cuáles son las características del acta de conciliación?",
+                            options: [
+                                "Solo tiene valor probatorio",
+                                "Hace tránsito a cosa juzgada y presta mérito ejecutivo",
+                                "Requiere homologación judicial",
+                                "Es un requisito de procedibilidad"
+                            ],
+                            correct: "Hace tránsito a cosa juzgada y presta mérito ejecutivo"
+                        },
+                        {
+                            question: "¿Cuándo se considera agotada la reclamación administrativa?",
+                            options: [
+                                "Cuando se presenta por escrito",
+                                "Cuando se haya decidido o cuando transcurrido un mes no se haya resuelto",
+                                "Después de dos meses",
+                                "Solo cuando hay respuesta favorable"
+                            ],
+                            correct: "Cuando se haya decidido o cuando transcurrido un mes no se haya resuelto"
+                        },
+                        {
+                            question: "En las demandas contra entidades públicas, ¿qué entidad siempre se debe incluir?",
+                            options: [
+                                "Ministerio del Trabajo",
+                                "Procuraduría General de la Nación",
+                                "Agencia Nacional de Defensa Jurídica del Estado",
+                                "Contraloría General de la República"
+                            ],
+                            correct: "Agencia Nacional de Defensa Jurídica del Estado"
+                        }
+                    ]
+                },
+                // SECCIÓN IV: INTERVENCIÓN DEL MINISTERIO PÚBLICO Y CONCILIACIÓN EXTRAJUDICIAL
+                {
+                    section: "Intervención del Ministerio Público y Conciliación Extrajudicial",
+                    questions: [
+                        {
+                            question: "¿En cuáles casos interviene el Ministerio Público?",
+                            options: [
+                                "Solo cuando lo solicite el Ministerio del Trabajo",
+                                "Cuando lo solicite el Ministerio del Trabajo, cuando sea parte la nación, en defensa de derechos fundamentales, en nulidades, tutelas y casos de incapaces",
+                                "Únicamente en casos de nulidad",
+                                "Solo en acciones de tutela"
+                            ],
+                            correct: "Cuando lo solicite el Ministerio del Trabajo, cuando sea parte la nación, en defensa de derechos fundamentales, en nulidades, tutelas y casos de incapaces"
+                        },
+                        {
+                            question: "¿Qué derechos NO se pueden conciliar extrajudicialmente?",
+                            options: [
+                                "Horas extras y recargos",
+                                "Indemnizaciones",
+                                "Salario, cesantías, intereses a las cesantías, prima de servicios, vacaciones, cotizaciones a seguridad social",
+                                "Accidentes laborales"
+                            ],
+                            correct: "Salario, cesantías, intereses a las cesantías, prima de servicios, vacaciones, cotizaciones a seguridad social"
+                        }
+                    ]
+                },
+                // SECCIÓN V: PODER Y REPRESENTACIÓN
+                {
+                    section: "Poder y Representación",
+                    questions: [
+                        {
+                            question: "¿Cuáles son los tipos de poder según el texto?",
+                            options: [
+                                "Solo poder general",
+                                "Solo poder especial",
+                                "Poder especial (documento privado) y poder general (escritura pública)",
+                                "Poder judicial y extrajudicial"
+                            ],
+                            correct: "Poder especial (documento privado) y poder general (escritura pública)"
+                        },
+                        {
+                            question: "¿Cuánto tiempo tiene el abogado para presentar incidente de regulación de honorarios tras la revocatoria del poder?",
+                            options: [
+                                "15 días",
+                                "20 días",
+                                "30 días",
+                                "45 días"
+                            ],
+                            correct: "30 días"
+                        },
+                        {
+                            question: "¿Cuáles son las facultades que debe contener el poder según el artículo 77 CPL?",
+                            options: [
+                                "Solo representar en audiencias",
+                                "Solo presentar recursos",
+                                "Las facultades establecidas en el art. 77 CPL para todas las actuaciones procesales",
+                                "Solo firmar documentos"
+                            ],
+                            correct: "Las facultades establecidas en el art. 77 CPL para todas las actuaciones procesales"
+                        }
+                    ]
+                },
+                // SECCIÓN VI: DEMANDA
+                {
+                    section: "Demanda",
+                    questions: [
+                        {
+                            question: "¿Cuántos días tiene el demandante para subsanar la demanda?",
+                            options: [
+                                "3 días hábiles",
+                                "5 días hábiles",
+                                "10 días hábiles",
+                                "15 días hábiles"
+                            ],
+                            correct: "5 días hábiles"
+                        },
+                        {
+                            question: "¿Por cuántos días se corre traslado para contestar la demanda una vez admitida?",
+                            options: [
+                                "3 días",
+                                "5 días",
+                                "10 días",
+                                "15 días"
+                            ],
+                            correct: "10 días"
+                        },
+                        {
+                            question: "Los anexos obligatorios de la demanda incluyen:",
+                            options: [
+                                "Solo el poder",
+                                "Solo las pruebas documentales",
+                                "Poder, copias de la demanda, pruebas documentales, prueba de existencia y representación legal si es persona jurídica, prueba del agotamiento de la reclamación administrativa si fuere el caso",
+                                "Solo las copias de la demanda"
+                            ],
+                            correct: "Poder, copias de la demanda, pruebas documentales, prueba de existencia y representación legal si es persona jurídica, prueba del agotamiento de la reclamación administrativa si fuere el caso"
+                        }
+                    ]
+                },
+                // SECCIÓN VII: NOTIFICACIONES
+                {
+                    section: "Notificaciones",
+                    questions: [
+                        {
+                            question: "¿Cuántos días debe transcurrir para que se surta el emplazamiento después de publicado en el registro?",
+                            options: [
+                                "10 días",
+                                "15 días",
+                                "20 días",
+                                "30 días"
+                            ],
+                            correct: "15 días"
+                        },
+                        {
+                            question: "La notificación por CONDUCTA CONCLUYENTE se da cuando:",
+                            options: [
+                                "La persona firma un documento",
+                                "La persona demuestra que conoce de la providencia",
+                                "La persona se presenta voluntariamente",
+                                "La persona envía un escrito"
+                            ],
+                            correct: "La persona demuestra que conoce de la providencia"
+                        }
+                    ]
+                },
+                // SECCIÓN VIII: PROVIDENCIAS JUDICIALES
+                {
+                    section: "Providencias Judiciales",
+                    questions: [
+                        {
+                            question: "¿Qué recursos proceden contra autos interlocutorios?",
+                            options: [
+                                "Solo reposición",
+                                "Solo apelación",
+                                "Reposición, apelación, queja cuando niegan apelación o casación",
+                                "Solo casación"
+                            ],
+                            correct: "Reposición, apelación, queja cuando niegan apelación o casación"
+                        },
+                        {
+                            question: "¿Contra qué tipo de autos NO proceden recursos?",
+                            options: [
+                                "Autos interlocutorios",
+                                "Autos de sustanciación",
+                                "Autos que resuelven incidentes",
+                                "Autos que decretan pruebas"
+                            ],
+                            correct: "Autos de sustanciación"
+                        },
+                        {
+                            question: "En las sentencias de única instancia, ¿qué recursos proceden?",
+                            options: [
+                                "Apelación",
+                                "Casación",
+                                "No proceden recursos, solo tutela",
+                                "Reposición"
+                            ],
+                            correct: "No proceden recursos, solo tutela"
+                        }
+                    ]
+                },
+                // SECCIÓN IX: CURADOR AD LITEM
+                {
+                    section: "Curador Ad Litem",
+                    questions: [
+                        {
+                            question: "¿En qué casos se nombra curador ad litem?",
+                            options: [
+                                "Solo cuando se desconoce el domicilio del demandado",
+                                "Cuando se desconoce el domicilio, cuando el demandado impida la notificación, cuando no se encuentre en el lugar",
+                                "Solo en casos de menores de edad",
+                                "Solo cuando hay incapacidad mental"
+                            ],
+                            correct: "Cuando se desconoce el domicilio, cuando el demandado impida la notificación, cuando no se encuentre en el lugar"
+                        },
+                        {
+                            question: "¿Qué sanciones puede recibir el curador que no se hace parte del proceso?",
+                            options: [
+                                "Solo multa",
+                                "Solo nulidad del proceso",
+                                "Multa de 10 a 50 SMMLV, perjuicios, nulidad del proceso, responsabilidad penal, sanción disciplinaria",
+                                "Solo responsabilidad penal"
+                            ],
+                            correct: "Multa de 10 a 50 SMMLV, perjuicios, nulidad del proceso, responsabilidad penal, sanción disciplinaria"
+                        }
+                    ]
+                },
+                // SECCIÓN X: EXCEPCIONES
+                {
+                    section: "Excepciones",
+                    questions: [
+                        {
+                            question: "¿Cuáles son los tipos de excepciones previas mencionadas en el texto?",
+                            options: [
+                                "Solo falta de competencia",
+                                "Falta de competencia, compromiso, inexistencia del demandado, ineptitud de la demanda, entre otras",
+                                "Solo inexistencia del demandado",
+                                "Solo pleito pendiente"
+                            ],
+                            correct: "Falta de competencia, compromiso, inexistencia del demandado, ineptitud de la demanda, entre otras"
+                        },
+                        {
+                            question: "Las excepciones de mérito o de fondo incluyen:",
+                            options: [
+                                "Solo inexistencia de la relación laboral",
+                                "Inexistencia de la relación laboral, carencia de derecho, cobro de lo no debido, pago total o parcial, novación, transacción, conciliación, compensación",
+                                "Solo pago de la obligación",
+                                "Solo carencia de derecho"
+                            ],
+                            correct: "Inexistencia de la relación laboral, carencia de derecho, cobro de lo no debido, pago total o parcial, novación, transacción, conciliación, compensación"
+                        },
+                        {
+                            question: "¿Cuáles son las excepciones mixtas?",
+                            options: [
+                                "Prescripción y cosa juzgada",
+                                "Solo prescripción",
+                                "Solo cosa juzgada",
+                                "Compensación y novación"
+                            ],
+                            correct: "Prescripción y cosa juzgada"
+                        }
+                    ]
+                },
+                // SECCIÓN XI: ETAPAS PROCESALES DETALLADAS
+                {
+                    section: "Etapas Procesales Detalladas",
+                    questions: [
+                        {
+                            question: "¿Dentro de qué plazo debe el juez fijar audiencia de conciliación?",
+                            options: [
+                                "Un mes",
+                                "Dos meses",
+                                "Tres meses",
+                                "Seis meses"
+                            ],
+                            correct: "Tres meses"
+                        },
+                        {
+                            question: "¿Cuándo se resuelven las excepciones previas?",
+                            options: [
+                                "En la sentencia",
+                                "En el acto (audiencia)",
+                                "Después de las pruebas",
+                                "Al final del proceso"
+                            ],
+                            correct: "En el acto (audiencia)"
+                        },
+                        {
+                            question: "¿Dentro de qué plazo fija el juez la audiencia de trámite y juzgamiento según el art. 80?",
+                            options: [
+                                "Un mes",
+                                "Dos meses",
+                                "Tres meses",
+                                "Cuatro meses"
+                            ],
+                            correct: "Tres meses"
+                        }
+                    ]
+                },
+                // SECCIÓN XII: PRUEBAS - CARACTERÍSTICAS Y ELEMENTOS
+                {
+                    section: "Pruebas - Características y Elementos",
+                    questions: [
+                        {
+                            question: "¿Cuáles son los elementos esenciales de la prueba?",
+                            options: [
+                                "Conducencia, pertinencia, utilidad",
+                                "Solo conducencia",
+                                "Solo pertinencia",
+                                "Oportunidad y legalidad"
+                            ],
+                            correct: "Conducencia, pertinencia, utilidad"
+                        },
+                        {
+                            question: "¿Cuándo puede el juez decretar pruebas de oficio?",
+                            options: [
+                                "Nunca",
+                                "Solo al inicio del proceso",
+                                "En el decreto de pruebas",
+                                "Solo en segunda instancia"
+                            ],
+                            correct: "En el decreto de pruebas"
+                        },
+                        {
+                            question: "¿Qué debe probar el DEMANDANTE según la carga de la prueba?",
+                            options: [
+                                "Solo el salario",
+                                "Prestación personal del servicio, valor del salario, horario, horas extra, despido sin justa causa",
+                                "Solo las horas extra",
+                                "Solo el despido"
+                            ],
+                            correct: "Prestación personal del servicio, valor del salario, horario, horas extra, despido sin justa causa"
+                        },
+                        {
+                            question: "¿Qué debe probar el DEMANDADO según la carga de la prueba?",
+                            options: [
+                                "Solo el despido con justa causa",
+                                "Salarios, vacaciones, transporte, seguridad social, despido con justa causa, cesantías, prima de servicios, auxilio",
+                                "Solo los salarios pagados",
+                                "Solo la seguridad social"
+                            ],
+                            correct: "Salarios, vacaciones, transporte, seguridad social, despido con justa causa, cesantías, prima de servicios, auxilio"
+                        }
+                    ]
+                },
+                // SECCIÓN XIII: CARGA DINÁMICA DE LA PRUEBA Y SEGUNDA INSTANCIA
+                {
+                    section: "Carga Dinámica de la Prueba y Segunda Instancia",
+                    questions: [
+                        {
+                            question: "¿Por qué razones puede el juez redistribuir la carga de la prueba?",
+                            options: [
+                                "Solo por cercanía de la prueba",
+                                "Por la cercanía de la prueba, por tener la prueba en su poder, por estado de indefensión, por haber intervenido directamente en los hechos",
+                                "Solo por indefensión",
+                                "Solo por tener la prueba en su poder"
+                            ],
+                            correct: "Por la cercanía de la prueba, por tener la prueba en su poder, por estado de indefensión, por haber intervenido directamente en los hechos"
+                        },
+                        {
+                            question: "¿Se pueden allegar nuevas pruebas en segunda instancia?",
+                            options: [
+                                "Sí, siempre",
+                                "No, nunca",
+                                "No, excepto que no se hayan practicado las pruebas o sean pruebas sobrevinientes solicitadas en demanda o contestación",
+                                "Solo con autorización del juez"
+                            ],
+                            correct: "No, excepto que no se hayan practicado las pruebas o sean pruebas sobrevinientes solicitadas en demanda o contestación"
+                        }
+                    ]
+                },
+                // SECCIÓN XIV: MEDIOS PROBATORIOS ESPECÍFICOS
+                {
+                    section: "Medios Probatorios Específicos",
+                    questions: [
+                        {
+                            question: "¿Cuándo se da la confesión ficta o presunta?",
+                            options: [
+                                "Solo cuando no se presenta al interrogatorio",
+                                "Cuando acepta varios hechos, cuando no se presenta al interrogatorio, cuando no permite inspección judicial",
+                                "Solo cuando acepta hechos",
+                                "Solo en la inspección judicial"
+                            ],
+                            correct: "Cuando acepta varios hechos, cuando no se presenta al interrogatorio, cuando no permite inspección judicial"
+                        },
+                        {
+                            question: "¿Cuál es el número máximo de preguntas en el interrogatorio de parte?",
+                            options: [
+                                "15 preguntas",
+                                "20 preguntas",
+                                "25 preguntas",
+                                "30 preguntas"
+                            ],
+                            correct: "20 preguntas"
+                        },
+                        {
+                            question: "¿Quiénes NO pueden ser testigos?",
+                            options: [
+                                "Solo el cónyuge",
+                                "Cónyuge, hasta 4º grado de consanguinidad, hasta 2º grado de afinidad, 1º grado civil",
+                                "Solo los parientes",
+                                "Solo los empleados de la empresa"
+                            ],
+                            correct: "Cónyuge, hasta 4º grado de consanguinidad, hasta 2º grado de afinidad, 1º grado civil"
+                        },
+                        {
+                            question: "¿Cuál es la sanción por negarse a rendir prueba pericial?",
+                            options: [
+                                "3 SMMLV",
+                                "5 SMMLV",
+                                "10 SMMLV",
+                                "15 SMMLV"
+                            ],
+                            correct: "5 SMMLV"
+                        },
+                        {
+                            question: "¿Cuál es la sanción por no permitir inspección judicial?",
+                            options: [
+                                "3 SMMLV",
+                                "5 SMMLV",
+                                "10 SMMLV",
+                                "No hay sanción"
+                            ],
+                            correct: "5 SMMLV"
+                        }
+                    ]
+                },
+                // SECCIÓN XV: PRUEBAS ESPECIALES
+                {
+                    section: "Pruebas Especiales",
+                    questions: [
+                        {
+                            question: "¿Qué pruebas se consideran idóneas según el texto?",
+                            options: [
+                                "Solo periódicos oficiales",
+                                "Periódicos oficiales, conceptos del Ministerio del Trabajo, cifras del DANE, certificados de registro mercantil, laudos arbitrales, reglamentos de trabajo",
+                                "Solo estadísticas del DANE",
+                                "Solo laudos arbitrales"
+                            ],
+                            correct: "Periódicos oficiales, conceptos del Ministerio del Trabajo, cifras del DANE, certificados de registro mercantil, laudos arbitrales, reglamentos de trabajo"
+                        },
+                        {
+                            question: "¿Qué requisitos deben cumplir las pruebas de WhatsApp?",
+                            options: [
+                                "Solo el número de teléfono",
+                                "Número de teléfono del remitente, hora específica, que no se haya modificado (sustentado por perito), no se practican en audiencia",
+                                "Solo la hora específica",
+                                "Solo que no se hayan modificado"
+                            ],
+                            correct: "Número de teléfono del remitente, hora específica, que no se haya modificado (sustentado por perito), no se practican en audiencia"
+                        },
+                        {
+                            question: "¿Qué hechos NO requieren ser probados?",
+                            options: [
+                                "Solo hechos admitidos",
+                                "Hechos admitidos por las partes, hechos notorios, cifras y estadísticas de entidades nacionales o internacionales",
+                                "Solo hechos notorios",
+                                "Solo estadísticas oficiales"
+                            ],
+                            correct: "Hechos admitidos por las partes, hechos notorios, cifras y estadísticas de entidades nacionales o internacionales"
+                        }
+                    ]
+                },
+                // SECCIÓN XVI: OBJECIONES
+                {
+                    section: "Objeciones",
+                    questions: [
+                        {
+                            question: "¿Cuáles son las clases de objeciones mencionadas?",
+                            options: [
+                                "Solo impertinente y sugestiva",
+                                "Impertinente, sugestivas, repetitivas, de opinión, ambiguas, capciosas",
+                                "Solo repetitivas",
+                                "Solo de opinión"
+                            ],
+                            correct: "Impertinente, sugestivas, repetitivas, de opinión, ambiguas, capciosas"
+                        },
+                        {
+                            question: "¿Cómo comienzan las preguntas ABIERTAS?",
+                            options: [
+                                "Con \"sí o no\"",
+                                "\"Manifiéstele al despacho\", \"Manifiéstele a esta audiencia\", \"Aclárele al juez\"",
+                                "Con \"¿Es cierto que...?\"",
+                                "Con \"¿Cómo es posible que...?\""
+                            ],
+                            correct: "\"Manifiéstele al despacho\", \"Manifiéstele a esta audiencia\", \"Aclárele al juez\""
+                        }
+                    ]
+                },
+                // SECCIÓN XVII: ACLARACIÓN Y CORRECCIÓN DE SENTENCIAS
+                {
+                    section: "Aclaración y Corrección de Sentencias",
+                    questions: [
+                        {
+                            question: "¿En qué plazo se debe solicitar aclaración de sentencia?",
+                            options: [
+                                "2 días hábiles",
+                                "3 días hábiles",
+                                "5 días hábiles",
+                                "10 días hábiles"
+                            ],
+                            correct: "3 días hábiles"
+                        },
+                        {
+                            question: "¿Cuándo se puede solicitar corrección de providencia?",
+                            options: [
+                                "Solo dentro de 3 días",
+                                "Solo por errores numéricos, en cualquier momento, de oficio o a petición de parte",
+                                "Solo de oficio",
+                                "Solo a petición de parte"
+                            ],
+                            correct: "Solo por errores numéricos, en cualquier momento, de oficio o a petición de parte"
+                        }
+                    ]
+                },
+                // SECCIÓN XVIII: RECURSOS - REPOSICIÓN
+                {
+                    section: "Recursos - Reposición",
+                    questions: [
+                        {
+                            question: "¿Contra qué procede el recurso de reposición?",
+                            options: [
+                                "Contra todas las providencias",
+                                "Únicamente contra autos interlocutorios",
+                                "Contra sentencias",
+                                "Contra autos de sustanciación"
+                            ],
+                            correct: "Únicamente contra autos interlocutorios"
+                        },
+                        {
+                            question: "¿En cuánto tiempo se presenta el recurso de reposición por ESTADO?",
+                            options: [
+                                "1 día",
+                                "2 días",
+                                "3 días",
+                                "5 días"
+                                
+                            ],
+                            correct: "2 días"
+                        },
+                        {
+                            question: "¿En cuánto tiempo debe decidir el juez el recurso de reposición por ESTADO?",
+                            options: [
+                                "2 días",
+                                "3 días",
+                                "5 días",
+                                "10 días"
+                            ],
+                            correct: "3 días"
+                        }
+                    ]
+                },
+                // SECCIÓN XIX: RECURSO DE APELACIÓN
+                {
+                    section: "Recurso de Apelación",
+                    questions: [
+                        {
+                            question: "¿Contra qué procede el recurso de apelación?",
+                            options: [
+                                "Solo contra sentencias",
+                                "Solo contra autos interlocutorios y sentencias de primera instancia",
+                                "Contra todas las providencias",
+                                "Solo contra autos de sustanciación"
+                            ],
+                            correct: "Solo contra autos interlocutorios y sentencias de primera instancia"
+                        },
+                        {
+                            question: "¿En cuánto tiempo se presenta el recurso de apelación por ESTADO?",
+                            options: [
+                                "3 días hábiles",
+                                "5 días hábiles",
+                                "10 días hábiles",
+                                "15 días hábiles"
+                            ],
+                            correct: "5 días hábiles"
+                        },
+                        {
+                            question: "¿Cuáles son los efectos del recurso de apelación?",
+                            options: [
+                                "Solo suspensivo",
+                                "Solo devolutivo",
+                                "Suspensivo y devolutivo",
+                                "Ni suspensivo ni devolutivo"
+                            ],
+                            correct: "Suspensivo y devolutivo"
+                        }
+                    ]
+                },
+                // SECCIÓN XX: RECURSO DE REVISIÓN
+                {
+                    section: "Recurso de Revisión",
+                    questions: [
+                        {
+                            question: "¿Cuál es el término de prescripción del recurso de revisión?",
+                            options: [
+                                "3 meses",
+                                "6 meses a partir de la sentencia penal, sin exceder 5 años de la sentencia laboral",
+                                "1 año",
+                                "2 años"
+                            ],
+                            correct: "6 meses a partir de la sentencia penal, sin exceder 5 años de la sentencia laboral"
+                        },
+                        {
+                            question: "¿Cuáles son las causales del recurso de revisión?",
+                            options: [
+                                "Solo documentos falsos",
+                                "Documentos falsos, falsos testimonios, falta de deberes profesionales del apoderado, actas de conciliación falsas, condenas contra la nación que excedan límites",
+                                "Solo falsos testimonios",
+                                "Solo condenas excesivas"
+                            ],
+                            correct: "Documentos falsos, falsos testimonios, falta de deberes profesionales del apoderado, actas de conciliación falsas, condenas contra la nación que excedan límites"
+                        },
+                        {
+                            question: "¿Qué sanción recibe quien presenta recurso de revisión rechazado?",
+                            options: [
+                                "5 a 10 SMMLV",
+                                "10 a 20 SMMLV",
+                                "1 a 5 SMMLV",
+                                "No hay sanción"
+                            ],
+                            correct: "5 a 10 SMMLV"
+                        }
+                    ]
+                },
+                // SECCIÓN XXI: GRADO JURISDICCIONAL DE CONSULTA
+                {
+                    section: "Grado Jurisdiccional de Consulta",
+                    questions: [
+                        {
+                            question: "¿Cuándo procede el grado jurisdiccional de consulta?",
+                            options: [
+                                "Siempre",
+                                "Cuando todas las pretensiones se hayan negado en contra del trabajador",
+                                "Solo en segunda instancia",
+                                "Solo contra entidades públicas"
+                            ],
+                            correct: "Cuando todas las pretensiones se hayan negado en contra del trabajador"
+                        },
+                        {
+                            question: "En procesos de única instancia, ¿ante quién se remite la consulta?",
+                            options: [
+                                "Tribunal Superior",
+                                "Juez de circuito",
+                                "Corte Suprema",
+                                "Ministerio del Trabajo"
+                            ],
+                            correct: "Juez de circuito"
+                        },
+                        {
+                            question: "¿Se condena en costas en el grado jurisdiccional de consulta?",
+                            options: [
+                                "Sí, siempre",
+                                "No condenan en costas, solo para procesos ordinarios",
+                                "Solo contra entidades públicas",
+                                "Solo en segunda instancia"
+                            ],
+                            correct: "No condenan en costas, solo para procesos ordinarios"
+                        }
+                    ]
+                },
+                // SECCIÓN XXII: TÍTULOS EJECUTIVOS
+                {
+                    section: "Títulos Ejecutivos",
+                    questions: [
+                        {
+                            question: "¿Cuál es el término de prescripción de una sentencia?",
+                            options: [
+                                "5 años",
+                                "10 años",
+                                "15 años",
+                                "20 años"
+                            ],
+                            correct: "10 años"
+                        },
+                        {
+                            question: "En única instancia-EN LOS PROCESOS EJECUTIVOS, ¿cuántos días tiene el ejecutado para pagar y para presentar excepciones?",
+                            options: [
+                                "3 y 5 días respectivamente",
+                                "5 días para el pago y 5 días para excepciones",
+                                "5 y 10 días respectivamente",
+                                "10 y 10 días respectivamente"
+                            ],
+                            correct: "5 días para el pago y 5 días para excepciones"
+                        },
+                        {
+                            question: "En primera instancia, ¿cuántos días para pagar y presentar excepciones?",
+                            options: [
+                                "5 días para el pago y 5 días para excepciones",
+                                "5 días para el pago y 10 días para excepciones",
+                                "10 días para ambos",
+                                "3 y 5 días respectivamente"
+                            ],
+                            correct: "5 días para el pago y 10 días para excepciones"
+                        }
+                    ]
+                },
+                // SECCIÓN XXIII: MEDIDAS CAUTELARES Y EMBARGO
+                {
+                    section: "Medidas Cautelares y Embargo",
+                    questions: [
+                        {
+                            question: "¿Qué porcentaje del salario se puede embargar?",
+                            options: [
+                                "1/3 parte de lo que exceda el SMMLV",
+                                "1/4 parte de lo que exceda el SMMLV",
+                                "1/5 parte de lo que exceda el SMMLV",
+                                "1/2 parte de lo que exceda el SMMLV"
+                            ],
+                            correct: "1/5 parte de lo que exceda el SMMLV"
+                        },
+                        {
+                            question: "¿Con qué porcentaje del avalúo inicia el remate?",
+                            options: [
+                                "50%",
+                                "60%",
+                                "70%",
+                                "80%"
+                            ],
+                            correct: "70%"
+                        },
+                        {
+                            question: "Si nadie se postula en el primer remate, ¿a qué porcentaje se baja el precio?",
+                            options: [
+                                "40%",
+                                "50%",
+                                "60%",
+                                "30%"
+                            ],
+                            correct: "50%"
+                        },
+                        {
+                            question: "¿Por cuántos días se publica el edicto de remate?",
+                            options: [
+                                "3 días",
+                                "5 días",
+                                "6 días",
+                                "10 días"
+                            ],
+                            correct: "6 días"
+                        }
+                    ]
+                },
+                // DISOLUCIÓN DE SINDICATOS Y ACOSO LABORAL (Última Sección)
+                {
+                    section: "Disolución de Sindicatos y Acoso Laboral",
+                    questions: [
+                        {
+                            question: "1. ¿Cuál es el número mínimo de trabajadores que debe mantener un sindicato para evitar su disolución por esta causal?",
+                            options: [
+                                "15 trabajadores",
+                                "20 trabajadores",
+                                "25 trabajadores",
+                                "30 trabajadores"
+                            ],
+                            correct: "25 trabajadores"
+                        },
+                        {
+                            question: "2. En el caso de sindicatos de empleadores, ¿cuál es el número mínimo requerido para evitar la disolución?",
+                            options: [
+                                "3 empleadores",
+                                "5 empleadores",
+                                "7 empleadores",
+                                "10 empleadores"
+                            ],
+                            correct: "5 empleadores"
+                        },
+                        {
+                            question: "3. ¿Qué porcentaje de miembros del sindicato debe decidir la disolución cuando esta se produce por decisión voluntaria?",
+                            options: [
+                                "La mayoría simple (50% + 1)",
+                                "Las dos terceras partes",
+                                "Las tres cuartas partes",
+                                "La unanimidad"
+                            ],
+                            correct: "Las dos terceras partes"
+                        },
+                        {
+                            question: "4. ¿Ante qué autoridad judicial se presenta la demanda de disolución y liquidación de sindicatos?",
+                            options: [
+                                "Juez laboral de pequeñas causas del domicilio del sindicato",
+                                "Juez civil del circuito del domicilio del sindicato",
+                                "Juez laboral de circuito del domicilio del sindicato",
+                                "Tribunal Superior de Distrito Judicial"
+                            ],
+                            correct: "Juez laboral de circuito del domicilio del sindicato"
+                        },
+                        {
+                            question: "5. Si no es posible realizar la notificación personal al sindicato en el proceso de disolución, ¿por cuántos días se fija el edicto?",
+                            options: [
+                                "3 días",
+                                "5 días",
+                                "10 días",
+                                "15 días"
+                            ],
+                            correct: "5 días"
+                        },
+                        {
+                            question: "6. ¿Cuál es el término para el traslado de la demanda de disolución de sindicatos?",
+                            options: [
+                                "3 días",
+                                "5 días",
+                                "10 días",
+                                "15 días"
+                            ],
+                            correct: "5 días"
+                        },
+                        {
+                            question: "7. En el proceso de liquidación formal del sindicato, después de realizar el análisis de activos y pasivos, ¿cómo se distribuyen los activos restantes?",
+                            options: [
+                                "En partes iguales entre todos los miembros",
+                                "Conforme a los aportes o a prorrata por porcentaje",
+                                "Se entregan al Estado",
+                                "Se donan a otra organización sindical"
+                            ],
+                            correct: "Conforme a los aportes o a prorrata por porcentaje"
+                        },
+                        {
+                            question: "8. ¿Cuál NO es una causal de disolución de sindicatos según el texto?",
+                            options: [
+                                "No cumplir con el mínimo de trabajadores",
+                                "Causas establecidas en los estatutos",
+                                "Cambio de la junta directiva",
+                                "Sentencia judicial"
+                            ],
+                            correct: "Cambio de la junta directiva"
+                        },
+                        {
+                            question: "9. ¿Qué recurso procede contra la decisión del juez que decide liquidar o no el sindicato?",
+                            options: [
+                                "Recurso de reposición",
+                                "Recurso de apelación en efecto suspensivo",
+                                "Recurso de casación",
+                                "No procede ningún recurso"
+                            ],
+                            correct: "Recurso de apelación en efecto suspensivo"
+                        },
+                        {
+                            question: "10. En el proceso de acoso laboral, ¿cuál es el término de caducidad desde el hecho de acoso o la última situación de acoso laboral?",
+                            options: [
+                                "3 meses",
+                                "6 meses",
+                                "1 año",
+                                "2 años"
+                            ],
+                            correct: "6 meses"
+                        },
+                        {
+                            question: "11. ¿Qué significa IUS VARIANDI en el contexto laboral?",
+                            options: [
+                                "Derecho del trabajador a cambiar de empleo",
+                                "Condiciones laborales cambian por las necesidades de la empresa",
+                                "Facultad del sindicato para negociar colectivamente",
+                                "Principio de estabilidad laboral"
+                            ],
+                            correct: "Condiciones laborales cambian por las necesidades de la empresa"
+                        },
+                        {
+                            question: "12. ¿Cuáles son las excepciones al IUS VARIANDI cuando hay fuero?",
+                            options: [
+                                "Solo no puede ser despedido sin justa causa",
+                                "Solo no puede ser desmejorado en sus condiciones laborales",
+                                "No puede ser despedido sin justa causa, no puede ser desmejorado de sus condiciones laborales, y no puede ser trasladado sin autorización",
+                                "Solo no puede ser trasladado sin autorización"
+                            ],
+                            correct: "No puede ser despedido sin justa causa, no puede ser desmejorado de sus condiciones laborales, y no puede ser trasladado sin autorización"
+                        },
+                        {
+                            question: "13. En el proceso de acoso laboral, cuando se cita a audiencia de descargos, ¿cuántos testigos debe llevar un trabajador sindicalizado?",
+                            options: [
+                                "1 testigo",
+                                "2 testigos",
+                                "3 testigos",
+                                "No requiere testigos"
+                            ],
+                            correct: "2 testigos"
+                        },
+                        {
+                            question: "14. ¿Qué autoridad judicial conoce de los procesos de acoso laboral?",
+                            options: [
+                                "Jueces laborales de pequeñas causas",
+                                "Jueces civiles de circuito",
+                                "Jueces laborales de circuito",
+                                "Tribunales superiores"
+                            ],
+                            correct: "Jueces laborales de circuito"
+                        },
+                        {
+                            question: "15. En el proceso de acoso laboral de única instancia, ¿dónde se contesta la demanda?",
+                            options: [
+                                "Por escrito ante el juzgado",
+                                "En audiencia",
+                                "Mediante memorial",
+                                "No se requiere contestación"
+                            ],
+                            correct: "En audiencia"
+                        },
+                        {
+                            question: "16. ¿Cuál NO constituye una forma de acoso laboral según el texto?",
+                            options: [
+                                "Aumento excesivo de la carga laboral",
+                                "Rechazo de solicitudes injustificadas",
+                                "Discriminación de género o raza",
+                                "Evaluación periódica del desempeño"
+                            ],
+                            correct: "Evaluación periódica del desempeño"
+                        },
+                        {
+                            question: "17. En el proceso de disolución de sindicatos, ¿cuándo debe el juez decidir sobre la admisión de la demanda?",
+                            options: [
+                                "Dentro de los 3 días siguientes",
+                                "A más tardar el día siguiente",
+                                "Dentro de los 5 días siguientes",
+                                "Dentro de los 10 días siguientes"
+                            ],
+                            correct: "A más tardar el día siguiente"
+                        },
+                        {
+                            question: "18. ¿Qué entidades pueden solicitar la disolución de sindicatos, federaciones y confederaciones?",
+                            options: [
+                                "Solo el Ministerio del Trabajo",
+                                "Solo el empleador",
+                                "Solo quien demuestre interés jurídico",
+                                "El Ministerio del Trabajo, el empleador o quien demuestre tener interés jurídico"
+                            ],
+                            correct: "El Ministerio del Trabajo, el empleador o quien demuestre tener interés jurídico"
+                        },
+                        {
+                            question: "19. En el proceso de acoso laboral, ¿dentro de qué término debe el juez fijar fecha de audiencia desde la recepción de la queja?",
+                            options: [
+                                "15 días siguientes",
+                                "20 días siguientes",
+                                "30 días siguientes",
+                                "45 días siguientes"
+                            ],
+                            correct: "30 días siguientes"
+                        },
+                        {
+                            question: "20. ¿Qué recurso procede contra la sentencia de acoso laboral de única instancia?",
+                            options: [
+                                "Recurso de reposición",
+                                "Recurso de apelación",
+                                "Recurso de casación",
+                                "Recurso de revisión"
+                            ],
+                            correct: "Recurso de apelación"
+                        },
+                        {
+                            question: "21. En el proceso de liquidación formal del sindicato, ¿quién puede ser nombrado como liquidador?",
+                            options: [
+                                "Solo un miembro del sindicato",
+                                "Solo un tercero ajeno al sindicato",
+                                "Un miembro del mismo o un tercero",
+                                "Solo un funcionario del Ministerio del Trabajo"
+                            ],
+                            correct: "Un miembro del mismo o un tercero"
+                        },
+                        {
+                            question: "22. ¿Cuánto tiempo tiene el tribunal para decidir sobre el recurso de apelación en procesos de acoso laboral?",
+                            options: [
+                                "15 días",
+                                "20 días",
+                                "30 días",
+                                "45 días"
+                            ],
+                            correct: "30 días"
+                        },
+                        {
+                            question: "23. En el proceso de disolución de sindicatos, si han pasado 5 días y el sindicato no se presenta para la notificación, ¿qué procede?",
+                            options: [
+                                "Se archiva el proceso",
+                                "Se fija un edicto por 5 días",
+                                "Se notifica por estado",
+                                "Se solicita al Ministerio del Trabajo que lo notifique"
+                            ],
+                            correct: "Se fija un edicto por 5 días"
+                        },
+                        {
+                            question: "24. ¿Cuál es el último paso en la liquidación formal del sindicato?",
+                            options: [
+                                "Pago de honorarios del liquidador",
+                                "Distribución de activos",
+                                "Cancelar el registro sindical y registrarlo ante el Ministerio del Trabajo",
+                                "Convocatoria a asamblea extraordinaria"
+                            ],
+                            correct: "Cancelar el registro sindical y registrarlo ante el Ministerio del Trabajo"
+                        },
+                        {
+                            question: "25. En el despido con justa causa por acoso laboral, ¿qué debe conceder el empleador después de notificar el fallo?",
+                            options: [
+                                "Una segunda oportunidad",
+                                "El recurso de apelación",
+                                "Una indemnización",
+                                "Un período de gracia"
+                            ],
+                            correct: "El recurso de apelación"
+                        }
+                    ]
+                }
+            ];
+
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const quizScreen = document.getElementById('quiz-screen');
+            const resultsScreen = document.getElementById('results-screen');
+            const startQuizBtn = document.getElementById('start-quiz-btn');
+            const quizSectionsContainer = document.getElementById('quiz-sections');
+            const nextSectionBtn = document.getElementById('next-section-btn');
+            const prevSectionBtn = document.getElementById('prev-section-btn');
+            const finishQuizBtn = document.getElementById('finish-quiz-btn');
+            const progressBarFill = document.querySelector('.progress-fill');
+            const progressText = document.getElementById('progress-text');
+            const finalScoreSpan = document.getElementById('final-score');
+            const totalQuestionsSpan = document.getElementById('total-questions');
+            const feedbackMessageDiv = document.querySelector('.feedback-message');
+            const reviewAnswersBtn = document.getElementById('review-answers-btn');
+            const reviewSection = document.getElementById('review-section');
+            const reviewQuestionsContainer = document.getElementById('review-questions-container');
+            const restartQuizBtn = document.getElementById('restart-quiz-btn');
+
+            let currentSectionIndex = 0;
+            let userAnswers = []; // Almacena { questionIndexGlobal, selectedOption, isCorrect }
+            let correctAnswersCount = 0;
+            let totalQuestionsCount = 0;
+
+            // Calcular el total de preguntas una vez
+            questionsData.forEach(section => {
+                totalQuestionsCount += section.questions.length;
+            });
+            totalQuestionsSpan.textContent = totalQuestionsCount;
+
+            // Función para mostrar mensajes de gratificación/emoción
+            const showFeedbackPopup = (message, type = 'correct') => {
+                const popup = document.createElement('div');
+                popup.classList.add('gratification-message');
+                if (type === 'correct') {
+                    popup.innerHTML = `<i class="fas fa-smile-beam"></i> ${message}`;
+                    popup.style.backgroundColor = 'rgba(40, 167, 69, 0.9)'; // Verde
+                } else {
+                    popup.innerHTML = `<i class="fas fa-frown"></i> ${message}`;
+                    popup.style.backgroundColor = 'rgba(220, 53, 69, 0.9)'; // Rojo
+                }
+
+                document.body.appendChild(popup);
+                setTimeout(() => {
+                    popup.remove();
+                }, 2000); // 2 segundos
+            };
+
+            // Renderizar una sección del cuestionario
+            const renderQuizSection = (sectionIndex) => {
+                quizSectionsContainer.innerHTML = '';
+                const currentSection = questionsData[sectionIndex];
+                let sectionHtml = `
+                    <div class="quiz-section-container" data-section-index="${sectionIndex}">
+                        <h2>SECCIÓN ${sectionIndex + 1}: ${currentSection.section}</h2>
+                `;
+                let questionNumberOffset = 0;
+                for (let i = 0; i < sectionIndex; i++) {
+                    questionNumberOffset += questionsData[i].questions.length;
+                }
+
+                currentSection.questions.forEach((q, qIndexInSection) => {
+                    const questionNumberGlobal = questionNumberOffset + qIndexInSection + 1;
+                    const questionId = `q${sectionIndex}-${qIndexInSection}`;
+                    sectionHtml += `
+                        <div class="question-block" data-question-id="${questionId}">
+                            <p>${questionNumberGlobal}. ${q.question}</p>
+                            <ul class="options-list" data-question-index-global="${questionNumberGlobal - 1}">
+                    `;
+                    q.options.forEach((option, optIndex) => {
+                        const globalQuestionIndex = questionNumberGlobal - 1;
+                        const userAnswer = userAnswers[globalQuestionIndex];
+                        let liClass = '';
+                        if (userAnswer && userAnswer.selectedOption === option) {
+                            liClass = userAnswer.isCorrect ? 'correct' : 'incorrect';
+                        }
+                        sectionHtml += `
+                            <li data-option="${option}" class="${liClass}">${option}</li>
+                        `;
+                    });
+                    sectionHtml += `
+                            </ul>
+                            <div class="answer-feedback" style="display:none;"></div>
+                        </div>
+                    `;
+                });
+                sectionHtml += `</div>`;
+                quizSectionsContainer.innerHTML = sectionHtml;
+
+                // Adjuntar event listeners a las nuevas opciones
+                document.querySelectorAll('.options-list li').forEach(optionElement => {
+                    optionElement.addEventListener('click', handleOptionClick);
+                });
+
+                // Mostrar/ocultar botones de navegación
+                prevSectionBtn.style.display = sectionIndex > 0 ? 'inline-block' : 'none';
+                nextSectionBtn.style.display = sectionIndex < questionsData.length - 1 ? 'inline-block' : 'none';
+                finishQuizBtn.style.display = sectionIndex === questionsData.length - 1 ? 'inline-block' : 'none';
+
+                updateProgressBar();
+                disableAnsweredQuestions(); // Deshabilita preguntas ya contestadas
+            };
+
+            // Deshabilitar preguntas ya contestadas
+            const disableAnsweredQuestions = () => {
+                quizSectionsContainer.querySelectorAll('.question-block').forEach(questionBlock => {
+                    const questionIndexGlobal = parseInt(questionBlock.querySelector('.options-list').dataset.questionIndexGlobal);
+                    if (userAnswers[questionIndexGlobal] && userAnswers[questionIndexGlobal].selectedOption) {
+                        questionBlock.querySelectorAll('.options-list li').forEach(li => {
+                            li.style.pointerEvents = 'none'; // Deshabilita clics
+                        });
+                        const userAnswer = userAnswers[questionIndexGlobal];
+                        const feedbackDiv = questionBlock.querySelector('.answer-feedback');
+                        feedbackDiv.textContent = userAnswer.isCorrect ? '¡Correcto! 😊' : '¡Incorrecto! 🙁';
+                        feedbackDiv.classList.add(userAnswer.isCorrect ? 'correct-text' : 'incorrect-text');
+                        feedbackDiv.style.display = 'block';
+                    }
+                });
+            };
+
+
+            // Manejar la selección de una opción
+            const handleOptionClick = (event) => {
+                const selectedOptionElement = event.target;
+                const optionsList = selectedOptionElement.closest('.options-list');
+                const questionBlock = selectedOptionElement.closest('.question-block');
+                const questionIndexGlobal = parseInt(optionsList.dataset.questionIndexGlobal);
+
+                // Si ya ha sido respondida, no hacer nada (doble chequeo)
+                if (userAnswers[questionIndexGlobal] && userAnswers[questionIndexGlobal].selectedOption) {
+                    return;
+                }
+
+                const selectedOption = selectedOptionElement.dataset.option;
+                let correctOption = null;
+                let currentQuestionObj = null;
+
+                // Encuentra la pregunta correcta en el array de datos
+                let found = false;
+                let qCounter = 0;
+                for (const section of questionsData) {
+                    for (const q of section.questions) {
+                        if (qCounter === questionIndexGlobal) {
+                            correctOption = q.correct;
+                            currentQuestionObj = q;
+                            found = true;
+                            break;
+                        }
+                        qCounter++;
+                    }
+                    if (found) break;
+                }
+
+                const isCorrect = selectedOption === correctOption;
+
+                // Almacenar la respuesta del usuario
+                userAnswers[questionIndexGlobal] = {
+                    question: currentQuestionObj.question,
+                    options: currentQuestionObj.options,
+                    correct: currentQuestionObj.correct,
+                    selectedOption: selectedOption,
+                    isCorrect: isCorrect
+                };
+
+                // Resaltar la opción seleccionada y la correcta
+                optionsList.querySelectorAll('li').forEach(li => {
+                    li.style.pointerEvents = 'none'; // Deshabilitar clics una vez respondido
+                    if (li.dataset.option === selectedOption) {
+                        li.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    }
+                });
+
+                const feedbackDiv = questionBlock.querySelector('.answer-feedback');
+                if (isCorrect) {
+                    correctAnswersCount++;
+                    feedbackDiv.textContent = '¡Correcto! 😊 Sigue así.';
+                    feedbackDiv.classList.add('correct-text');
+                    showFeedbackPopup('¡Bien hecho! ✨', 'correct');
+                } else {
+                    feedbackDiv.textContent = '¡Incorrecto! 🙁 Repasa esto.';
+                    feedbackDiv.classList.add('incorrect-text');
+                    showFeedbackPopup('¡Ánimo! Intenta de nuevo. 😔', 'incorrect');
+                }
+                feedbackDiv.style.display = 'block';
+
+                updateProgressBar();
+            };
+
+            // Actualizar la barra de progreso
+            const updateProgressBar = () => {
+                let answeredQuestions = userAnswers.filter(a => a !== undefined).length;
+                const progressPercentage = (answeredQuestions / totalQuestionsCount) * 100;
+                progressBarFill.style.width = `${progressPercentage}%`;
+                progressText.textContent = `${Math.round(progressPercentage)}%`;
+            };
+
+            // Navegar a la siguiente sección
+            nextSectionBtn.addEventListener('click', () => {
+                if (currentSectionIndex < questionsData.length - 1) {
+                    currentSectionIndex++;
+                    renderQuizSection(currentSectionIndex);
+                    quizSectionsContainer.scrollTop = 0; // Volver al inicio de la sección
+                }
+            });
+
+            // Navegar a la sección anterior
+            prevSectionBtn.addEventListener('click', () => {
+                if (currentSectionIndex > 0) {
+                    currentSectionIndex--;
+                    renderQuizSection(currentSectionIndex);
+                    quizSectionsContainer.scrollTop = 0; // Volver al inicio de la sección
+                }
+            });
+
+            // Finalizar Cuestionario
+            finishQuizBtn.addEventListener('click', () => {
+                quizScreen.classList.remove('active');
+                resultsScreen.classList.add('active');
+                finalScoreSpan.textContent = correctAnswersCount;
+
+                let finalFeedback = "";
+                const percentage = (correctAnswersCount / totalQuestionsCount) * 100;
+
+                if (percentage >= 80) {
+                    finalFeedback = "¡Excelente trabajo! Has demostrado un gran dominio. ¡Felicidades! 🎉";
+                    feedbackMessageDiv.style.color = "#28a745";
+                } else if (percentage >= 50) {
+                    finalFeedback = "¡Buen esfuerzo! Sigue practicando para mejorar aún más. 💪";
+                    feedbackMessageDiv.style.color = "#0a7eab";
+                } else {
+                    finalFeedback = "Sigue estudiando. ¡No te rindas! Cada intento te hace más fuerte. 📚";
+                    feedbackMessageDiv.style.color = "#dc3545";
+                }
+                feedbackMessageDiv.textContent = finalFeedback;
+            });
+
+            // Revisar Respuestas
+            reviewAnswersBtn.addEventListener('click', () => {
+                reviewSection.style.display = 'block';
+                reviewQuestionsContainer.innerHTML = '';
+
+                userAnswers.forEach((answer, index) => {
+                    if (!answer) return; // Skip if question was not answered (shouldn't happen with current logic)
+
+                    const reviewBlock = document.createElement('div');
+                    reviewBlock.classList.add('review-question-block');
+
+                    reviewBlock.innerHTML = `
+                        <p>${index + 1}. ${answer.question}</p>
+                        <ul>
+                            ${answer.options.map(opt => `
+                                <li class="${opt === answer.selectedOption ? (answer.isCorrect ? 'correct' : 'incorrect') : ''}
+                                           ${opt === answer.correct && opt !== answer.selectedOption ? 'correct-answer-review' : ''}">
+                                    ${opt}
+                                </li>
+                            `).join('')}
+                        </ul>
+                        <div class="correct-answer-text">
+                            Respuesta Correcta: <strong>${answer.correct}</strong>
+                        </div>
+                        <div class="user-answer" style="color: ${answer.isCorrect ? '#28a745' : '#dc3545'};">
+                            Tu Respuesta: <strong>${answer.selectedOption || 'No respondida'}</strong> ${answer.isCorrect ? '✔' : '❌'}
+                        </div>
+                    `;
+                    reviewQuestionsContainer.appendChild(reviewBlock);
+                });
+
+                // Scroll to review section
+                reviewSection.scrollIntoView({ behavior: 'smooth' });
+            });
+
+            // Reiniciar Cuestionario
+            restartQuizBtn.addEventListener('click', () => {
+                currentSectionIndex = 0;
+                userAnswers = [];
+                correctAnswersCount = 0;
+                welcomeScreen.classList.add('active');
+                quizScreen.classList.remove('active');
+                resultsScreen.classList.remove('active');
+                reviewSection.style.display = 'none';
+                updateProgressBar();
+            });
+
+            // Iniciar Cuestionario desde la pantalla de bienvenida
+            startQuizBtn.addEventListener('click', () => {
+                welcomeScreen.classList.remove('active');
+                quizScreen.classList.add('active');
+                renderQuizSection(currentSectionIndex);
+            });
+
+            // Inicializar la barra de progreso al cargar la página
+            updateProgressBar();
+        });
+    </script>
+</body>
+</html>
